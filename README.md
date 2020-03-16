@@ -1,4 +1,4 @@
-# CHUTNEY - a grpc basedvery fast config server
+# CHUTNEY - a grpc based very fast config server
 ![photo](https://github.com/tuachotu/ChutneyConfigServer/blob/master/Chutney.jpg)
 
 ### How to Compile
