@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package proto.configserver;
+option java_multiple_files = true;
+option java_outer_classname = "ConfigServerProto";
+option java_package = "info.vikrant.chutneyconfigserver.proto";
+
+
+
+// The greeting service definition.
+service ConfigServer {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply);
+
+  // Consumer API
+  rpc GetConfig(GetConfigRequest) returns (GetConfigResponse);
+  rpc GetAllConfig(GetAllConfigRequest) returns (GetAllConfigResponse);
+
+  // Consumer Admin API
+  rpc SetConfig (SetConfigRequest) returns (SetConfigResponse);
+  rpc AddConsumer(AddConsumerRequest) returns (AddConsumerResponse);
+
+  // ConfigServerAdmin API
+  // TODO(POST MVP): Add api for getting list of consumers
+  // TODO(POST MVP): What else?
+
+}
+
+enum ResponseCode {
+  RESPONSE_CODE_INVALID = 0;
+  // These codes matches exact with gRPC status codes.
+  // https://developers.google.com/maps-booking/reference/grpc-api-v2/status_codes
+  RESPONSE_CODE_OK = 1;
+  RESPONSE_CODE_CANCELLED = 2;
+  RESPONSE_CODE_UNKNOWN = 3;
+  RESPONSE_CODE_INVALID_ARGUMENT = 4;
+  RESPONSE_CODE_DEADLINE_EXCEEDED = 5;
+  RESPONSE_CODE_NOT_FOUND = 6;
+  RESPONSE_CODE_ALREADY_EXISTS = 7;
+  RESPONSE_CODE_PERMISSION_DENIED = 8;
+  RESPONSE_CODE_UNAUTHENTICATED = 9;
+  RESPONSE_CODE_RESOURCE_EXHAUSTED = 10;
+  RESPONSE_CODE_FAILED_PRECONDITION = 11;
+  RESPONSE_CODE_ABORTED = 12;
+  RESPONSE_CODE_OUT_OF_RANGE = 13;
+  RESPONSE_CODE_UNIMPLEMENTED = 14;
+  RESPONSE_CODE_INTERNAL = 15;
+  RESPONSE_CODE_UNAVAILABLE = 16;
+  RESPONSE_CODE_DATA_LOSS = 17;
+  // Response code for any unhandled exception on the server.
+  RESPONSE_CODE_UNHANDLED_EXCEPTION = 18;
+  // Custom Response code not present in gRPC status codes.
+  RESPONSE_CODE_INVALID_OBJECT_VERSION = 19;
+}
+
+
+enum ConfigType {
+  INTEGER = 0;
+  BOOLEAN = 1;
+  STRING = 2;
+  FLOAT = 3;
+  LIST_INTEGER = 4;
+  LIST_BOOLEAN = 5;
+  LIST_STRING = 6;
+  LIST_FLOAT = 7;
+}
+// TODO(POST MVP): Add timestamps to messages
+// TODO(POST MVP): Add response code to response messages
+
+
+// TODO(POST MVP): Add config push end point to this message, which can be used to push config changes back to consumer
+message AddConsumerRequest {
+  string consumerName = 1;
+  string consumerPhone = 2;
+  string consumerEmail = 3;
+}
+
+
+
+message AddConsumerResponse {
+  ResponseCode code = 1;
+  string consumerId = 2;
+}
+
+message GetAllConfigRequest {
+ string consumerId = 1;
+}
+
+message GetAllConfigResponse {
+ ResponseCode code = 1;
+ repeated string data = 2;
+}
+
+message GetConfigRequest {
+ string consumerId = 1;
+ string configKey = 2;
+}
+
+message GetConfigResponse {
+  ResponseCode code = 1;
+ // json string containing key:value
+ string data = 2;
+ ConfigType configType = 4;
+}
+
+message SetConfigRequest {
+ string consumerId = 1;
+ string configKey = 2;
+ // Int/float/boolean as string, list as csv string
+ string value = 3;
+ ConfigType configType = 4;
+}
+
+message SetConfigResponse {
+ ResponseCode code = 1;
+ // json string containing key:value
+ string data = 2;
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  ResponseCode code = 1;
+  string message = 2;
+}
