@@ -1,4 +1,5 @@
-
+# CHUTNEY - a grpc based fased config server
+![photo](https://github.com/tuachotu/ChutneyConfigServer/blob/master/Chutney.jpg)
 
 ### How to Compile
 
