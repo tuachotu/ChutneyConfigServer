@@ -1,7 +1,7 @@
-
 # ChutneyConfigServer
 
-Chutney is a Highly Available Config Server . 
+Chutney is a Highly Available Config Server .
+![photo](https://github.com/tuachotu/ChutneyConfigServer/blob/master/Chutney.jpg) 
 
 ## Config 
 Modern software make various decision based on Config. This is specially true for web based software. Use cases like 
